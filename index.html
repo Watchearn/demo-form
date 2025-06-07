@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lead Form</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    input, button { padding: 10px; margin: 5px; width: 300px; }
+  </style>
+</head>
+<body>
+  <h2>Lead Capture Form</h2>
+  <form id="leadForm">
+    <input type="text" id="name" placeholder="Name" required><br>
+    <input type="text" id="phone" placeholder="Phone Number" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    document.getElementById("leadForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const data = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbw0HY27OPHXRhj3ql8nuuhwxTvxw13RSfY-QQ72suznyP2owHnF3UIu-mMue1QpE68v/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(res => {
+        document.getElementById("status").textContent = "Lead Submitted Successfully!";
+        document.getElementById("leadForm").reset();
+      }).catch(err => {
+        document.getElementById("status").textContent = "Error submitting lead.";
+      });
+    });
+  </script>
+</body>
+</html>
